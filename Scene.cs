@@ -28,6 +28,8 @@ namespace MyFramework
             this.window = window;
 
             window.changeListener += onChanged;
+
+            initialize();
         }
 
         abstract protected void initialize();

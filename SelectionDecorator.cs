@@ -7,9 +7,9 @@ using MyMath;
 
 namespace MyFramework.GUI.GUIElements
 {
-    public class SelectionBox : GUIElement
+    public class SelectionDecorator : GUIDecorator
     {
-        protected Vector2 imagePosition;
+        protected Vector2 componentPosition;
 
         public Cursor cursor { get; protected set; }
         public CursorAllocation cursorAllocation { get; set; }
@@ -27,20 +27,12 @@ namespace MyFramework.GUI.GUIElements
         }
 
 
-        public SelectionBox(Image content, Vector2 size, CursorAllocation position, Cursor.CursorType type)
-            : base(size)
+        public SelectionDecorator(GUIElement comp, CursorAllocation alloc, Cursor.CursorType type)
+            : base(comp)
         {
-            this.cursorAllocation = position;
-            cursor = new Cursor(type);
+            visible = true;
 
-            setUp();
-            changeContent(content);
-        }
-
-        public SelectionBox(Vector2 size, CursorAllocation position, Cursor.CursorType type)
-            : base(size)
-        {
-            this.cursorAllocation = position;
+            cursorAllocation = alloc;
             cursor = new Cursor(type);
 
             setUp();
@@ -51,44 +43,30 @@ namespace MyFramework.GUI.GUIElements
             switch (cursorAllocation)
             {
                 case CursorAllocation.LEFT:
-                    imagePosition = new Vector2(cursor.getWidth(), 0);
+                    size = new Vector2(component.getWidth() + cursor.getWidth(), component.getHeight());
+                    graphic = new Image(size);
+                    componentPosition = new Vector2(cursor.getWidth(), 0);
                     cursor.position = new Vector2(0, size.y / 2 - cursor.getHeight() / 2);
                     break;
                 //TODO: implement rest
             }
         }
 
-        public virtual void changeContent(Image img)
-        {
-            graphic.clear();
-            graphic.add(img, imagePosition);
-        }
-
-        public override Image getGraphic()
-        {
-            Image img = graphic.getCopy();
-
-            if (active)
-            {
-                img.add(cursor.texture, cursor.position);
-            }
-
-            return img;
-        }
-
         public Vector2 getImageSize()
         {
-            return new Vector2(size.x - imagePosition.x, size.y - imagePosition.y);
+            return component.size;
         }
 
         public void activate()
         {
             active = true;
+            onChanged(EventArgs.Empty);
         }
 
         public void deactivate()
         {
             active = false;
+            onChanged(EventArgs.Empty);
         }
 
         public void onSelect()
@@ -97,6 +75,19 @@ namespace MyFramework.GUI.GUIElements
             {
                 select(this, EventArgs.Empty);
             }
+        }
+
+        public override Image getGraphic()
+        {
+            graphic.clear();
+
+            if (active)
+            {
+                add(cursor.texture, cursor.position);
+            }
+
+            add(component.getGraphic(), componentPosition);
+            return graphic;
         }
     }
 }

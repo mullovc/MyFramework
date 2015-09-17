@@ -14,6 +14,7 @@ namespace MyFramework.GUI
         public Window(Vector2 size) 
             : base(size)
         {
+            initialize();
         }
 
         virtual protected void initialize()
@@ -21,9 +22,9 @@ namespace MyFramework.GUI
 
         }
 
-        override public void addElement(GUIElement element, Vector2 pos)
+        override public void addElement(GUIElement element)
         {
-            base.addElement(element, pos);
+            base.addElement(element);
 
             onChanged(EventArgs.Empty);
         }

@@ -37,9 +37,11 @@ namespace MyFramework
 
         public static void addText(string text)
         {
-            FramedTextBox textBox =
-                new FramedTextBox(text, new Vector2(Config.windowSize.x - 1, 17));
-            addGraphic(textBox, new Vector2(0, Config.windowSize.x - 18));
+            TextBox textBox = new TextBox(text, new Vector2(Config.windowSize.x - 5, 13));
+            FrameDecorator framedTextBox = new FrameDecorator(textBox);
+            //FramedTextBox textBox =
+            //    new FramedTextBox(text, new Vector2(Config.windowSize.x - 1, 17));
+            addGraphic(framedTextBox, new Vector2(0, Config.windowSize.x - 18));
         }
 
         public static void clear()

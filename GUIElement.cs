@@ -9,23 +9,32 @@ namespace MyFramework.GUI.GUIElements
 {
     public abstract class GUIElement
     {
-        protected Vector2 size;
         protected Image graphic;
+        public Vector2 size { get; set; }
         public  Vector2 position { get; set; }
         public bool visible { get; set; }
         public int priority { get; set; }
 
         public event EventHandler changeListener;
 
-        public GUIElement() 
-            : this(new Vector2(0, 0))
+        public GUIElement()
+            : this(new Vector2(0, 0), new Vector2(0, 0))
         {
         }
 
         public GUIElement(Vector2 size)
+            : this(size, new Vector2(0, 0))
         {
             this.size = size;
             graphic = new Image(size);
+            visible = true;
+        }
+
+        public GUIElement(Vector2 size, Vector2 pos)
+        {
+            this.size = size;
+            graphic = new Image(size);
+            position = pos;
             visible = true;
         }
 

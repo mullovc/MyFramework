@@ -8,7 +8,7 @@ using MyFramework.GUI.GUIElements;
 
 namespace MyFramework.GUI.GUIElements
 {
-    class FrameDecorator : GUIDecorator
+    public class FrameDecorator : GUIDecorator
     {
         protected int frameWidth;
         protected int frameHeight;
@@ -19,9 +19,16 @@ namespace MyFramework.GUI.GUIElements
             PLAIN
         }
 
+        public FrameDecorator(GUIElement element)
+            : this(element, FrameType.PLAIN)
+        {
+
+        }
+
         public FrameDecorator(GUIElement element, FrameType type)
             : base(element)
         {
+            loadFrame();
             size = new Vector2(element.getWidth() + frameWidth * 2, element.getHeight() + frameHeight * 2);
             graphic = new Image(size);
             visible = true;
@@ -53,7 +60,7 @@ namespace MyFramework.GUI.GUIElements
 
         public override Image getGraphic()
         {
-            graphic.add(component.getGraphic(), new Vector2(frameWidth, frameHeight));
+            add(component.getGraphic(), new Vector2(frameWidth, frameHeight));
             return base.getGraphic();
         }
     }

@@ -7,7 +7,7 @@ using MyMath;
 
 namespace MyFramework.GUI.GUIElements
 {
-    abstract class GUIDecorator : GUIElement
+    public abstract class GUIDecorator : GUIElement
     {
         protected GUIElement component;
 

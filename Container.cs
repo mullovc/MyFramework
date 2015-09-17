@@ -20,7 +20,7 @@ namespace MyFramework.GUI
             elements = new List<GUIElement>();
         }
 
-        virtual public void addElement(GUIElement element, Vector2 pos)
+        virtual public void addElement(GUIElement element)
         {
             if (element.priority == 0)
             {
