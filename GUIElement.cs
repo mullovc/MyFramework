@@ -5,56 +5,66 @@ using System.Text;
 using System.Threading.Tasks;
 using MyMath;
 
-namespace MyFramework
+namespace MyFramework.GUI.GUIElements
 {
-    namespace GUI
+    public abstract class GUIElement
     {
-        public abstract class GUIElement
+        protected Vector2 size;
+        protected Image graphic;
+        public  Vector2 position { get; set; }
+        public bool visible { get; set; }
+        public int priority { get; set; }
+
+        public event EventHandler changeListener;
+
+        public GUIElement() 
+            : this(new Vector2(0, 0))
         {
-            protected Vector2 size;
-            protected Image graphic;
+        }
 
-            public bool visible { get; protected set; }
+        public GUIElement(Vector2 size)
+        {
+            this.size = size;
+            graphic = new Image(size);
+            visible = true;
+        }
 
-            public GUIElement(Vector2 size)
-            {
-                this.size = size;
-                graphic = new Image(size);
-                visible = true;
-            }
+        /*
+         * forgot to set the appropriate size?
+         */
+        public GUIElement(Image image)
+        {
+            graphic = image;
+        }
 
-            public GUIElement(Image image)
-            {
-                graphic = image;
-                visible = true;
-            }
-            public void add(Image content, Vector2 position)
-            {
-                graphic.add(content, position);
-            }
+        public void add(Image content, Vector2 position)
+        {
+            graphic.add(content, position);
+        }
 
-            public int getWidth()
-            {
-                return size.x;
-            }
-            public int getHeight()
-            {
-                return size.y;
-            }
+        public int getWidth()
+        {
+            return size.x;
+        }
+        public int getHeight()
+        {
+            return size.y;
+        }
 
-            public virtual Image getGraphic()
-            {
-                return graphic;
-            }
+        public virtual Image getGraphic()
+        {
+            return graphic;
+        }
 
-            public void show()
-            {
-                visible = true;
-            }
 
-            public void hide()
+        /**
+         * tells listeners that the element has changed
+         */
+        virtual protected void onChanged(EventArgs e)
+        {
+            if (changeListener != null)
             {
-                visible = false;
+                changeListener(this, EventArgs.Empty);
             }
         }
     }

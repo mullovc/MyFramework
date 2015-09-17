@@ -5,33 +5,33 @@ using System.Text;
 using System.Threading.Tasks;
 using MyMath;
 
-namespace MyFramework
+namespace MyFramework.GUI.GUIElements
 {
-    namespace GUI
+    /**
+     * change to Generic FramedGUIElement
+     */
+    public class FramedTextBox : Frame
     {
-        public class FramedTextBox : Frame
+        TextBox text;
+
+        public FramedTextBox(String content, Vector2 size)
+            : base(size)
         {
-            TextBox text;
+            text = new TextBox(content, 
+                Vector2.add(size, new Vector2(-(frameWidth * 2 + 2), -(frameHeight * 2 + 2))));
+        }
 
-            public FramedTextBox(String content, Vector2 size)
-                : base(size)
-            {
-                text = new TextBox(content, 
-                    Vector2.add(size, new Vector2(-(frameWidth * 2 + 2), -(frameHeight * 2 + 2))));
-            }
+        public void changeText(string content)
+        {
+            text.changeText(content);
+        }
 
-            public void changeText(string content)
-            {
-                text.changeText(content);
-            }
+        public override Image getGraphic()
+        {
+            Image img = graphic.getCopy();
+            img.add(text.getGraphic(), new Vector2(frameWidth + 1, frameHeight + 1));
 
-            public override Image getGraphic()
-            {
-                Image img = graphic.getCopy();
-                img.add(text.getGraphic(), new Vector2(frameWidth + 1, frameHeight + 1));
-
-                return img;
-            }
+            return img;
         }
     }
 }

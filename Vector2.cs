@@ -8,6 +8,8 @@ namespace MyMath
 {
     public class Vector2
     {
+        public static Vector2 zero = new Vector2(0, 0);
+
         public int x;
         public int y;
 

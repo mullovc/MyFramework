@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MyFramework;
 using MyFramework.GUI;
+using MyFramework.GUI.GUIElements;
 using MyMath;
 
 namespace MyFramework
@@ -22,6 +22,11 @@ namespace MyFramework
         public static void addGraphic(GUIElement gui, Vector2 pos)
         {
             display.add(gui.getGraphic(), pos);
+        }
+
+        public static void addGraphic(Window window, Vector2 pos)
+        {
+            display.add(window.getGraphic(), pos);
         }
 
         public static void addGraphic(Image img)

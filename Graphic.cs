@@ -5,23 +5,26 @@ using System.Text;
 using System.Threading.Tasks;
 using MyMath;
 
-namespace MyFramework
+namespace MyFramework.GUI.GUIElements
 {
-    namespace GUI
+    public class Graphic : GUIElement
     {
-        public class Graphic : GUIElement
+        public Graphic() 
+            : base()
         {
-            public Graphic(Vector2 size)
-                : base(size)
-            {
 
-            }
+        }
 
-            public Graphic(Image image)
-                : base(image)
-            {
+        public Graphic(Vector2 size)
+            : base(size)
+        {
 
-            }
+        }
+
+        public Graphic(Image image)
+            : base(image)
+        {
+
         }
     }
 }
