@@ -60,13 +60,13 @@ namespace MyFramework.GUI.GUIElements
         public void activate()
         {
             active = true;
-            onChanged(EventArgs.Empty);
+            onChanged(this, EventArgs.Empty);
         }
 
         public void deactivate()
         {
             active = false;
-            onChanged(EventArgs.Empty);
+            onChanged(this, EventArgs.Empty);
         }
 
         public void onSelect()

@@ -10,7 +10,7 @@ namespace MyFramework
     public class Image
     {
         protected Char[,] image;
-        protected Vector2 size;
+        public Vector2 size { get; protected set; }
 
         public Image(char[,] img)
         {

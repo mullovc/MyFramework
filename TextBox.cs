@@ -55,6 +55,8 @@ namespace MyFramework.GUI.GUIElements
 
                 cursor.x += character.getWidth() + 1;
             }
+
+            onChanged(this, EventArgs.Empty);
         }
 
         public virtual void changeText(string content, Vector2 pos)
@@ -90,6 +92,8 @@ namespace MyFramework.GUI.GUIElements
 
                 cursor.x += character.getWidth() + 1;
             }
+
+            onChanged(this, EventArgs.Empty);
         }
     }
 }

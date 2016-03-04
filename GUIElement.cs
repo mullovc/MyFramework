@@ -10,12 +10,23 @@ namespace MyFramework.GUI.GUIElements
     public abstract class GUIElement
     {
         protected Image graphic;
-        public Vector2 size { get; set; }
+
+        public Vector2 size { get; protected set; }
         public  Vector2 position { get; set; }
-        public bool visible { get; set; }
         public int priority { get; set; }
+        public bool visible { get; protected set; }
 
         public event EventHandler changeListener;
+
+        public event EventHandler visibilityChangedListener;
+
+        public event EventHandler resizeListener;
+
+        public event KeyEventHandler keyDown;
+
+        public event KeyEventHandler keyUp;
+
+        public event KeyEventHandler keyHold;
 
         public GUIElement()
             : this(new Vector2(0, 0), new Vector2(0, 0))
@@ -51,6 +62,28 @@ namespace MyFramework.GUI.GUIElements
             graphic.add(content, position);
         }
 
+        public void show()
+        {
+            visible = true;
+            onVisibilityChanged(EventArgs.Empty);
+        }
+
+        public void hide()
+        {
+            visible = false;
+            onVisibilityChanged(EventArgs.Empty);
+        }
+
+        public void resize(Vector2 s)
+        {
+            size = s;
+            Image oldGraphic = graphic;
+            graphic = new Image(size);
+            add(oldGraphic, new Vector2(0, 0));
+
+            onResize(EventArgs.Empty);
+        }
+
         public int getWidth()
         {
             return size.x;
@@ -65,16 +98,61 @@ namespace MyFramework.GUI.GUIElements
             return graphic;
         }
 
+        /**
+         * tells listeners that the element's visibility has changed
+         */
+        virtual protected void onVisibilityChanged(EventArgs e)
+        {
+            if (visibilityChangedListener != null)
+            {
+                visibilityChangedListener(this, e);
+            }
+        }
+
+        /**
+         * tells listeners that the element's size has changed
+         */
+        virtual protected void onResize(EventArgs e)
+        {
+            if (resizeListener != null)
+            {
+                resizeListener(this, e);
+            }
+        }
 
         /**
          * tells listeners that the element has changed
          */
-        virtual protected void onChanged(EventArgs e)
+        virtual protected void onChanged(object sender, EventArgs e)
         {
             if (changeListener != null)
             {
-                changeListener(this, EventArgs.Empty);
+                changeListener(this, e);
             }
         }
+
+        public void onKeyDown(String key)
+        {
+            if (keyDown != null)
+            {
+                keyDown(this, key);
+            }
+        }
+
+		public void onKeyUp(String key)
+		{
+			if (keyUp != null)
+			{
+				keyUp(this, key);
+			}
+		}
+
+		public void onKeyHold(String key)
+		{
+			if (keyHold != null)
+			{
+				keyHold(this, key);
+			}
+		}
     }
 }

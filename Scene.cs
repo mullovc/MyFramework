@@ -76,7 +76,23 @@ namespace MyFramework
             {
                 keyDown(this, key);
             }
-        }
+		}
+
+		public void onKeyUp(String key)
+		{
+			if (keyUp != null)
+			{
+				keyUp(this, key);
+			}
+		}
+
+		public void onKeyHold(String key)
+		{
+			if (keyHold != null)
+			{
+				keyHold(this, key);
+			}
+		}
 
     }
 }

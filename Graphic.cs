@@ -26,5 +26,11 @@ namespace MyFramework.GUI.GUIElements
         {
 
         }
+
+        public void changeGraphic(Image img)
+        {
+            graphic = img;
+            size = graphic.size;
+        }
     }
 }

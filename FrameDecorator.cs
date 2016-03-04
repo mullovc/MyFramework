@@ -29,9 +29,7 @@ namespace MyFramework.GUI.GUIElements
             : base(element)
         {
             loadFrame();
-            size = new Vector2(element.getWidth() + frameWidth * 2, element.getHeight() + frameHeight * 2);
-            graphic = new Image(size);
-            visible = true;
+            resize(new Vector2(element.getWidth() + frameWidth * 2, element.getHeight() + frameHeight * 2));
 
             drawFrame();
         }

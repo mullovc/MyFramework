@@ -22,12 +22,5 @@ namespace MyFramework.GUI
 
         }
 
-        override public void addElement(GUIElement element)
-        {
-            base.addElement(element);
-
-            onChanged(EventArgs.Empty);
-        }
-
     }
 }
