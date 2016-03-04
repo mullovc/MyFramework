@@ -10,8 +10,6 @@ namespace MyFramework.GUI
 {
     public abstract class Container : GUIElement
     {
-        private bool changed;
-
         protected List<GUIElement> elements;
 
         public Container(Vector2 size) 
@@ -49,6 +47,7 @@ namespace MyFramework.GUI
             }
 
             element.changeListener += onChanged;
+            element.visibilityChangedListener += onChanged;
             onChanged(this, EventArgs.Empty);
         }
 
@@ -56,17 +55,9 @@ namespace MyFramework.GUI
         {
             elements.Remove(element);
             element.changeListener -= onChanged;
+            element.visibilityChangedListener -= onChanged;
 
             onChanged(this, EventArgs.Empty);
-        }
-
-        /**
-         * tells listeners that the element has changed
-         */
-        protected void onChanged(object sender, EventArgs e)
-        {
-            changed = true;
-            base.onChanged(EventArgs.Empty);
         }
 
         public virtual void render()
@@ -81,20 +72,21 @@ namespace MyFramework.GUI
                 if (en.Current.visible)
                 {
                     graphic.add(en.Current.getGraphic(), en.Current.position);
-                    en.MoveNext();
                 }
+                en.MoveNext();
             }
-
-            changed = false;
         }
 
+		/*
+		 * Probably changed from rendering only upon change to always rendering,
+		 * because rendering only gets called after change anyways.
+		 * Consider changing it back to how it was before, since now after change 
+		 * in any element results in rerendering of every element on screen.
+		 */
         override public Image getGraphic()
         {
-            if (changed)
-            {
-                render();
-            }
-            return graphic;
+            render();
+            return base.getGraphic();
         }
 
     }

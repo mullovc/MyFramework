@@ -2,12 +2,50 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MyFramework
 {
     class Input
     {
+        public event KeyEventHandler inputListener;
+        Thread inputThread;
+        bool running;
+
+        public Input()
+        {
+            inputThread = new Thread(waitForInput);
+        }
+
+        public void start()
+        {
+            running = true;
+            inputThread.Start();
+        }
+
+        public void stop()
+        {
+            running = false;
+        }
+
+        void waitForInput()
+        {
+            while (running)
+            {
+                ConsoleKeyInfo key = Console.ReadKey();
+                string input = key.Key.ToString();
+
+                input = getNumberInput(input);
+
+                if(inputListener != null)
+                {
+                    inputListener(this, input);
+                }
+            }
+        }
+
+
         public static string getInput()
         {
             ConsoleKeyInfo key = Console.ReadKey();

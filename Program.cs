@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using MyMath;
 using MyFramework.GUI;
@@ -14,25 +15,33 @@ namespace MyFramework
         private Scene currentScene;
         private Window currentWindow;
 
+        private Input input;
+
         private bool running;
         private bool changed;
+
+        private Thread updateThread;
 
         public Program()
         {
             configure();
 
+            input = new Input();
             Output.display = new Display(Config.windowSize);
             scenes = new Stack<Scene>();
-
         }
 
         public void configure()
         {
-            Config.windowSize = new Vector2(150, 60);
+            //Config.windowSize = new Vector2(150, 60);
+            Config.getConfigs();
 
             Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.Black;
-            Console.SetWindowSize(Config.windowSize.x + 1, Config.windowSize.y + 1);
+            if (Config.windowSize.x <= 150 && Config.windowSize.y <= 60)
+            {
+                Console.SetWindowSize(Config.windowSize.x + 1, Config.windowSize.y + 1);
+            }
             Console.SetBufferSize(Config.windowSize.x + 1, Config.windowSize.y + 1);
             Console.Title = "Game";
             Console.CursorVisible = false;
@@ -41,25 +50,42 @@ namespace MyFramework
 
         public void run(Scene startingScene)
         {
+            input.inputListener += keyPressedListener;
+            input.start();
+
             addScene(this, startingScene);
 
             running = true;
 
-            while(running)
+            while (running)
             {
-                if(Input.keyPressed())
-                {
-                    currentScene.onKeyDown(Input.getInput());
-                }
-
-                if (changed)
-                {
-                    Output.addGraphic(currentWindow, new Vector2(0, 0));
-                    Output.print();
-
-                    changed = false;
-                }
+                update();
+                Thread.Sleep(60);
             }
+        }
+
+        //maybe add an update method to each GUIElement
+        void update()
+        {
+            if (changed)
+            {
+                drawFrame();
+                changed = false;
+            }
+        }
+
+        void drawFrame()
+        {
+            lock (this)
+            {
+                Output.addGraphic(currentWindow, new Vector2(0, 0));
+                Output.print();
+            }
+        }
+
+        void keyPressedListener(object sender, string key)
+        {
+            currentScene.onKeyDown(key);
         }
 
         private void windowChanged(object sender, EventArgs e)
@@ -86,9 +112,10 @@ namespace MyFramework
                 else
                 {
                     running = false;
+                    input.stop();
                 }
 
-                changed = true;
+                drawFrame();
             }
         }
 
@@ -98,9 +125,9 @@ namespace MyFramework
             currentScene = s;
             currentWindow = s.window;
 
-            s.changed += new EventHandler(windowChanged);
+            s.changed    += new EventHandler(windowChanged);
             s.closeScene += new EventHandler(closeScene);
-            s.addScene += new SceneEventHandler(addScene);
+            s.addScene   += new SceneEventHandler(addScene);
 
             changed = true;
         }
