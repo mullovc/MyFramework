@@ -13,45 +13,37 @@ namespace MyFramework
     {
         private Stack<Scene> scenes;
         private Scene currentScene;
-        private Window currentWindow;
-
-        private Input input;
+        private Window window;
 
         private bool running;
         private bool changed;
 
+		//what is this?
         private Thread updateThread;
 
         public Program()
         {
             configure();
 
-            input = new Input();
-            Output.display = new Display(Config.windowSize);
             scenes = new Stack<Scene>();
         }
 
         public void configure()
         {
-            //Config.windowSize = new Vector2(150, 60);
-            Config.getConfigs();
+			Config config = Config.getConfigs();
 
-            Console.BackgroundColor = ConsoleColor.White;
-            Console.ForegroundColor = ConsoleColor.Black;
-            if (Config.windowSize.x <= 150 && Config.windowSize.y <= 60)
-            {
-                Console.SetWindowSize(Config.windowSize.x + 1, Config.windowSize.y + 1);
-            }
-            Console.SetBufferSize(Config.windowSize.x + 1, Config.windowSize.y + 1);
-            Console.Title = "Game";
-            Console.CursorVisible = false;
-            Console.Clear();
+			window = config.systemWindow;
+			window.setTitle (config.title);
+			window.changeColor (config.foreGroundColor, config.backGroundColor);
+			window.resize (config.windowSize);
+			//provisorical
+			window.cursorVisible (false);
+			window.clear ();
         }
 
         public void run(Scene startingScene)
         {
-            input.inputListener += keyPressedListener;
-            input.start();
+            window.inputListener += keyPressedListener;
 
             addScene(this, startingScene);
 
@@ -69,6 +61,8 @@ namespace MyFramework
         {
             if (changed)
             {
+				//subject to change
+				window.getInput ();
                 drawFrame();
                 changed = false;
             }
@@ -78,8 +72,8 @@ namespace MyFramework
         {
             lock (this)
             {
-                Output.addGraphic(currentWindow, new Vector2(0, 0));
-                Output.print();
+				//subject to change
+				window.setContent(currentScene.getGraphic());
             }
         }
 
@@ -107,23 +101,24 @@ namespace MyFramework
                 if(en.MoveNext())
                 {
                     currentScene = en.Current;
-                    currentWindow = en.Current.window;
                 }
                 else
                 {
                     running = false;
-                    input.stop();
                 }
 
                 drawFrame();
             }
+			else
+			{
+				//what to do?
+			}
         }
 
         private void addScene(object sender, Scene s)
         {
             scenes.Push(s);
             currentScene = s;
-            currentWindow = s.window;
 
             s.changed    += new EventHandler(windowChanged);
             s.closeScene += new EventHandler(closeScene);

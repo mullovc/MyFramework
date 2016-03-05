@@ -6,21 +6,42 @@ using System.Threading.Tasks;
 using MyMath;
 using MyFramework.GUI.GUIElements;
 
-namespace MyFramework.GUI
+namespace MyFramework
 {
-    public class Window : Container
-    {
+    public abstract class Window
+	{
+		public event KeyEventHandler inputListener;
+		public Image content { get; protected set; }
 
-        public Window(Vector2 size) 
-            : base(size)
-        {
-            initialize();
-        }
+		protected Vector2 size;
 
-        virtual protected void initialize()
+        protected Window()
         {
 
         }
 
+		public abstract void setTitle (string title);
+
+		public abstract void cursorVisible (bool visible);
+
+		public abstract void resize (Vector2 size);
+
+		public abstract void changeResolution (Vector2 resolution);
+
+		public abstract void changeColor (ConsoleColor foreGround, ConsoleColor backGround);
+
+		public abstract void show ();
+
+		public abstract void close ();
+
+		//output-methods
+		public abstract void setContent (Image content);
+
+		public abstract void clear ();
+
+		//input-methods
+		public abstract string getInput ();
+
+		public abstract bool keyPressed ();
     }
 }

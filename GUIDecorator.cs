@@ -21,7 +21,7 @@ namespace MyFramework.GUI.GUIElements
         {
             component = comp;
             component.visibilityChangedListener += componentVisibilityChanged;
-            comp.changeListener += onChanged;
+			comp.changed += onChanged;
         }
 
         protected void componentVisibilityChanged(object sender, EventArgs e)

@@ -16,7 +16,7 @@ namespace MyFramework.GUI.GUIElements
         public int priority { get; set; }
         public bool visible { get; protected set; }
 
-        public event EventHandler changeListener;
+        public event EventHandler changed;
 
         public event EventHandler visibilityChangedListener;
 
@@ -125,9 +125,9 @@ namespace MyFramework.GUI.GUIElements
          */
         virtual protected void onChanged(object sender, EventArgs e)
         {
-            if (changeListener != null)
+            if (changed != null)
             {
-                changeListener(this, e);
+				changed(this, e);
             }
         }
 

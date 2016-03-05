@@ -46,7 +46,7 @@ namespace MyFramework.GUI
                 elements.Insert(cursor, element);
             }
 
-            element.changeListener += onChanged;
+			element.changed += onChanged;
             element.visibilityChangedListener += onChanged;
             onChanged(this, EventArgs.Empty);
         }
@@ -54,7 +54,7 @@ namespace MyFramework.GUI
         public void removeElement(GUIElement element)
         {
             elements.Remove(element);
-            element.changeListener -= onChanged;
+			element.changed -= onChanged;
             element.visibilityChangedListener -= onChanged;
 
             onChanged(this, EventArgs.Empty);
