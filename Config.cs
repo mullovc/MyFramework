@@ -75,13 +75,15 @@ namespace MyFramework
 		{
 			switch(system)
 			{
-			case "windows":
-				systemWindow = new WindowsConsoleWindow ();
-				break;
-			//maybe load during runtime
-			case "ubuntu":
-				systemWindow = new GnomeTerminalWindow ();
-				break;
+                case "windows":
+                    systemWindow = new WindowsConsoleWindow ();
+                    break;
+                //maybe load during runtime
+                case "ubuntu":
+                    systemWindow = new GnomeTerminalWindow ();
+                    break;
+                default:
+                    throw new System.IO.IOException("Config file does not contain system");
 			}
 		}
     }

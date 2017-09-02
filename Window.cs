@@ -20,6 +20,10 @@ namespace MyFramework
 
         }
 
+        public abstract void initialize();
+
+        public abstract void stop();
+
 		public abstract void setTitle (string title);
 
 		public abstract void cursorVisible (bool visible);
@@ -43,5 +47,13 @@ namespace MyFramework
 		public abstract string getInput ();
 
 		public abstract bool keyPressed ();
+
+        protected void onInput(string input)
+        {
+            if (inputListener != null)
+            {
+                inputListener(this, input);
+            }
+        }
     }
 }

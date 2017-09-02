@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace MyFramework
 {
@@ -7,10 +8,35 @@ namespace MyFramework
 	 */
 	public class WindowsConsoleWindow : Window
 	{
+        Thread inputThread;
+        bool running;
+
 		public WindowsConsoleWindow ()
 		{
-
+            running = false;
+            inputThread = new Thread(waitForInput);
 		}
+
+        public override void initialize()
+        {
+            running = true;
+            inputThread.Start();
+        }
+
+        public override void stop()
+        {
+            running = false;
+        }
+
+        void waitForInput()
+        {
+            while (running)
+            {
+                string input = getInput();
+                onInput(input);
+            }
+        }
+
 
 		public override void changeResolution (MyMath.Vector2 resolution)
 		{
@@ -24,6 +50,7 @@ namespace MyFramework
 				Console.SetWindowSize(size.x + 1, size.y + 1);
 			}
 			Console.SetBufferSize(size.x + 1, size.y + 1);
+            this.size = size;
 		}
 
 		public override void changeColor (ConsoleColor foreGround, ConsoleColor backGround)
@@ -42,7 +69,7 @@ namespace MyFramework
 				{
 					if (i < content.getHeight () && j < content.getWidth ()) 
 					{
-						output [i * size.x + j + i] = content.getPixel (new MyMath.Vector2 (i, j));
+						output [i * size.x + j + i] = content.getPixel (new MyMath.Vector2 (j, i));
 					} 
 					else 
 					{
@@ -58,7 +85,7 @@ namespace MyFramework
 
 		public override void clear ()
 		{
-			throw new NotImplementedException ();
+            Console.Clear();
 		}
 
 		public override void show ()

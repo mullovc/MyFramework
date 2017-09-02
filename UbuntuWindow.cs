@@ -13,6 +13,16 @@ namespace MyFramework
 
 		}
 
+        public override void initialize()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void stop()
+        {
+            throw new NotImplementedException();
+        }
+
 		public override void changeResolution (MyMath.Vector2 resolution)
 		{
 			throw new NotImplementedException ();

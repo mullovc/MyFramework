@@ -44,6 +44,7 @@ namespace MyFramework
         public void run(Scene startingScene)
         {
             window.inputListener += keyPressedListener;
+            window.initialize();
 
             addScene(this, startingScene);
 
@@ -61,8 +62,6 @@ namespace MyFramework
         {
             if (changed)
             {
-				//subject to change
-				window.getInput ();
                 drawFrame();
                 changed = false;
             }
