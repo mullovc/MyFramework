@@ -52,7 +52,7 @@ namespace MyMath
 
         public override string ToString()
         {
-            return (String.Format("{0} + {1}i", x, y));
+            return (String.Format("({0}, {1})", x, y));
         }
     }
 }

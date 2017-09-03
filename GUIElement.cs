@@ -22,6 +22,8 @@ namespace MyFramework.GUI.GUIElements
 
         public event EventHandler resizeListener;
 
+        public event EventHandler nextFrame;
+
         public event KeyEventHandler keyDown;
 
         public event KeyEventHandler keyUp;
@@ -129,6 +131,14 @@ namespace MyFramework.GUI.GUIElements
             if (changed != null)
             {
 				changed(this, e);
+            }
+        }
+
+        public void onNextFrame(object sender, EventArgs e)
+        {
+            if (nextFrame != null)
+            {
+                nextFrame(this, e);
             }
         }
 

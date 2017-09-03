@@ -57,6 +57,7 @@ namespace MyFramework.GUI.GUIElements
                 {
                     boxes[j, i] = new SelectionDecorator(b[j, i], cursorAllocation, cursorType);
                     boxes[j, i].position = new Vector2(j * width, i * height);
+                    boxes[j, i].changed += onChanged;
                 }
             }
         }

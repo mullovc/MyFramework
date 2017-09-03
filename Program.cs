@@ -61,6 +61,8 @@ namespace MyFramework
         //maybe add an update method to each GUIElement
         void update()
         {
+            currentScene.onNextFrame(this, EventArgs.Empty);
+
             if (changed)
             {
                 drawFrame();
