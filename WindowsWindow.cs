@@ -79,7 +79,7 @@ namespace MyFramework
 				output[(i + 1) * size.x + i] = '\n';
 			}
 
-			Console.Clear();
+            Console.SetCursorPosition(0, 0);
 			Console.Write(output);
 		}
 
