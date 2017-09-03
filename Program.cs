@@ -53,6 +53,7 @@ namespace MyFramework
             while (running)
             {
                 update();
+                // TODO specifiy framerate in config and sleep amount based on that
                 Thread.Sleep(60);
             }
         }
@@ -103,7 +104,7 @@ namespace MyFramework
                 }
                 else
                 {
-                    running = false;
+                    halt();
                 }
 
                 drawFrame();
@@ -124,6 +125,12 @@ namespace MyFramework
             s.addScene   += new SceneEventHandler(addScene);
 
             changed = true;
+        }
+
+        private void halt()
+        {
+            running = false;
+            window.stop();
         }
         /*
         static void Main()

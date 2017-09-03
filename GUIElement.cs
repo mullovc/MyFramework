@@ -36,6 +36,7 @@ namespace MyFramework.GUI.GUIElements
         public GUIElement(Vector2 size)
             : this(size, new Vector2(0, 0))
         {
+            //TODO are following 3 lines duplicates? (already set in constructor call 'this(...)')
             this.size = size;
             graphic = new Image(size);
             visible = true;
