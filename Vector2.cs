@@ -25,9 +25,34 @@ namespace MyMath
             y += v.y;
         }
 
+        public static Vector2 operator +(Vector2 v1, Vector2 v2)
+        {
+            return new Vector2(v1.x + v2.x, v1.y + v2.y);
+        }
+
+        public static Vector2 operator -(Vector2 v1, Vector2 v2)
+        {
+            return new Vector2(v1.x - v2.x, v1.y - v2.y);
+        }
+
+        public static Vector2 operator /(Vector2 v, int s)
+        {
+            return new Vector2(v.x / s, v.y / s);
+        }
+
+        public static Vector2 operator *(Vector2 v, int s)
+        {
+            return new Vector2(v.x * s, v.y * s);
+        }
+
         public static Vector2 add(Vector2 v1, Vector2 v2)
         {
             return new Vector2(v1.x + v2.x, v1.y + v2.y);
+        }
+
+        public override string ToString()
+        {
+            return (String.Format("{0} + {1}i", x, y));
         }
     }
 }
