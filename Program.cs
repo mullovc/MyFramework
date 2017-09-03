@@ -18,6 +18,7 @@ namespace MyFramework
         private bool running;
         private bool changed;
 
+        private int frameDuration;
 		//what is this?
         private Thread updateThread;
 
@@ -31,6 +32,8 @@ namespace MyFramework
         public void configure()
         {
 			Config config = Config.getConfigs();
+
+            frameDuration = 1000 / config.frameRate;
 
 			window = config.systemWindow;
 			window.setTitle (config.title);
@@ -50,11 +53,17 @@ namespace MyFramework
 
             running = true;
 
+            int lastFrameTime = DateTime.Now.Millisecond;
             while (running)
             {
                 update();
-                // TODO specifiy framerate in config and sleep amount based on that
-                Thread.Sleep(60);
+
+                int sleepRemaining = frameDuration - (DateTime.Now.Millisecond - lastFrameTime);
+                if (sleepRemaining > 0)
+                {
+                    Thread.Sleep(sleepRemaining);
+                }
+                lastFrameTime = DateTime.Now.Millisecond;
             }
         }
 

@@ -7,6 +7,7 @@ using MyMath;
 
 namespace MyFramework
 {
+    // TODO add method to create default configurations, in case the config file does not exist
     public class Config
     {
 		static Config singleton;
@@ -17,6 +18,8 @@ namespace MyFramework
 		public Window systemWindow { get; private set; }
 
 		public string title { get; private set; }
+
+        public int frameRate { get; private set; }
 
 		public ConsoleColor foreGroundColor { get; set; }
 
@@ -37,10 +40,11 @@ namespace MyFramework
 			return singleton;
         }
 
+        // TODO save config in JSON format
 		void initializeFromFile()
 		{
 			System.IO.StreamReader reader = new System.IO.StreamReader("save/Config.txt");
-			string[] lines = new string[4];
+			string[] lines = new string[5];
 
 
 			for (int i = 0; i < lines.Length; i++)
@@ -54,6 +58,7 @@ namespace MyFramework
 			{
 				int x = Int32.Parse(lines[0]);
 				int y = Int32.Parse(lines[1]);
+                frameRate = Int32.Parse(lines[4]);
 
 				windowSize = new Vector2(x, y);
 			}
