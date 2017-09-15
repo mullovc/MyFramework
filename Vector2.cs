@@ -54,5 +54,15 @@ namespace MyMath
         {
             return (String.Format("({0}, {1})", x, y));
         }
+
+        public static bool operator ==(Vector2 x, Vector2 y)
+        {
+            return (x.x == y.x && x.y == y.y);
+        }
+
+        public static bool operator !=(Vector2 x, Vector2 y)
+        {
+            return !(x == y);
+        }
     }
 }
