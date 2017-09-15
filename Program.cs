@@ -35,6 +35,11 @@ namespace MyFramework
 
             frameDuration = 1000 / config.frameRate;
 
+            System.Drawing.Font f = new System.Drawing.Font(new System.Drawing.FontFamily("Consolas"), 10);
+            ASCII.GenerateASCIICharSet(f);
+            System.Drawing.Font tf = new System.Drawing.Font(new System.Drawing.FontFamily("Consolas"), 16*f.Size);
+            ASCII.SetTextFont(tf);
+
 			window = config.systemWindow;
 			window.setTitle (config.title);
 			window.changeColor (config.foreGroundColor, config.backGroundColor);
