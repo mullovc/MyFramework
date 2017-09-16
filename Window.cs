@@ -28,6 +28,8 @@ namespace MyFramework
 
 		public abstract void cursorVisible (bool visible);
 
+        public abstract Vector2 windowSize();
+
 		public abstract void resize (Vector2 size);
 
 		public abstract void changeResolution (Vector2 resolution);

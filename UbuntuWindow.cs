@@ -28,6 +28,11 @@ namespace MyFramework
 			throw new NotImplementedException ();
 		}
 
+		public override MyMath.Vector2 windowSize ()
+		{
+			throw new NotImplementedException ();
+		}
+
 		public override void resize (MyMath.Vector2 size)
 		{
 			throw new NotImplementedException ();

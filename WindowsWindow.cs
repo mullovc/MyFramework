@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using MyMath;
 
 namespace MyFramework
 {
@@ -19,6 +20,7 @@ namespace MyFramework
 
         public override void initialize()
         {
+            size = new Vector2(Console.WindowWidth - 1, Console.WindowHeight - 1);
             running = true;
             inputThread.Start();
         }
@@ -43,13 +45,19 @@ namespace MyFramework
 			throw new NotImplementedException ();
 		}
 
+        public override Vector2 windowSize()
+        {
+            Vector2 cs = new Vector2(Console.WindowWidth - 1, Console.WindowHeight - 1);
+            if (cs != size)
+            {
+                resize(cs);
+            }
+
+            return size;
+        }
+
 		public override void resize (MyMath.Vector2 size)
 		{
-			if (size.x <= 150 && size.y <= 60)
-			{
-				Console.SetWindowSize(size.x + 1, size.y + 1);
-			}
-			Console.SetBufferSize(size.x + 1, size.y + 1);
             this.size = size;
 		}
 
@@ -152,6 +160,6 @@ namespace MyFramework
 				return input;
 			}
 		}
-	}
+    }
 }
 
