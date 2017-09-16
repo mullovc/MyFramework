@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Drawing;
 using MyMath;
 using MyFramework.GUI;
 
@@ -19,6 +20,8 @@ namespace MyFramework
         private bool changed;
 
         private int frameDuration;
+        private int frame;
+        private int rareUpdateInterval;
 		//what is this?
         private Thread updateThread;
 
@@ -34,16 +37,17 @@ namespace MyFramework
 			Config config = Config.getConfigs();
 
             frameDuration = 1000 / config.frameRate;
+            rareUpdateInterval = 100;
 
-            System.Drawing.Font f = new System.Drawing.Font(new System.Drawing.FontFamily("Consolas"), 10);
+            Font f = new Font(new FontFamily("Lucida Console"), 512, FontStyle.Bold);
             ASCII.GenerateASCIICharSet(f);
-            System.Drawing.Font tf = new System.Drawing.Font(new System.Drawing.FontFamily("Consolas"), 16*f.Size);
+            Font tf = new Font(new FontFamily("Consolas"), 64);
             ASCII.SetTextFont(tf);
 
 			window = config.systemWindow;
 			window.setTitle (config.title);
 			window.changeColor (config.foreGroundColor, config.backGroundColor);
-			window.resize (config.windowSize);
+			//window.resize (config.windowSize);
 			//provisorical
 			window.cursorVisible (false);
 			window.clear ();
@@ -57,11 +61,17 @@ namespace MyFramework
             addScene(this, startingScene);
 
             running = true;
+            frame = 0;
 
             int lastFrameTime = DateTime.Now.Millisecond;
             while (running)
             {
                 update();
+
+                if (frame % rareUpdateInterval == 0)
+                {
+                    rareUpdate();
+                }
 
                 int sleepRemaining = frameDuration - (DateTime.Now.Millisecond - lastFrameTime);
                 if (sleepRemaining > 0)
@@ -81,6 +91,15 @@ namespace MyFramework
             {
                 drawFrame();
                 changed = false;
+            }
+        }
+
+        void rareUpdate()
+        {
+            Vector2 ws = window.windowSize();
+            if (ws != currentScene.size)
+            {
+                currentScene.resize(ws);
             }
         }
 
