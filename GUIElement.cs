@@ -58,6 +58,9 @@ namespace MyFramework.GUI.GUIElements
         public GUIElement(Image image)
         {
             graphic = image;
+            this.size = image.size;
+            position = new Vector2(0, 0);
+            visible = true;
         }
 
         public void add(Image content, Vector2 position)
