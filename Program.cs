@@ -39,9 +39,9 @@ namespace MyFramework
             frameDuration = 1000 / config.frameRate;
             rareUpdateInterval = 100;
 
-            Font f = new Font(new FontFamily("Lucida Console"), 512, FontStyle.Bold);
+            Font f = new Font(new FontFamily("Lucida Console"), 128, FontStyle.Bold);
             ASCII.GenerateASCIICharSet(f);
-            Font tf = new Font(new FontFamily("Consolas"), 64);
+            Font tf = new Font(new FontFamily("Consolas"), 32);
             ASCII.SetTextFont(tf);
 
 			window = config.systemWindow;
@@ -63,7 +63,7 @@ namespace MyFramework
             running = true;
             frame = 0;
 
-            int lastFrameTime = DateTime.Now.Millisecond;
+            DateTime lastFrameTime = DateTime.Now;
             while (running)
             {
                 update();
@@ -73,12 +73,12 @@ namespace MyFramework
                     rareUpdate();
                 }
 
-                int sleepRemaining = frameDuration - (DateTime.Now.Millisecond - lastFrameTime);
+                int sleepRemaining = frameDuration - (int)(DateTime.Now - lastFrameTime).TotalMilliseconds;
                 if (sleepRemaining > 0)
                 {
                     Thread.Sleep(sleepRemaining);
                 }
-                lastFrameTime = DateTime.Now.Millisecond;
+                lastFrameTime = DateTime.Now;
             }
         }
 
